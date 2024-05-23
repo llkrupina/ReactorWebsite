@@ -7,32 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadDataFromDB {
-    private static final String DATABASE_URL = "jdbc:sqlite:";
 
-    public void ReadDataFromDB(String url) {
-        ReactorHolder reactorHolder = new ReactorHolder();
-
-        try (Connection conn = DriverManager.getConnection(DATABASE_URL + url)) {
-            if (conn != null) {
-                calculateConsumption(conn, reactorHolder);
-                //reactorHolder.printAllConsumption();
-                /*HashMap<String, HashMap<String, Double>> consumptionByRegion = calculateConsumptionByCompany(conn, reactorHolder);
-                // Вывод потребления по странам за год
-                for (String region : consumptionByRegion.keySet()) {
-                    System.out.println("Регион: " + region);
-                    HashMap<String, Double> yearConsumption = consumptionByRegion.get(region);
-                    for (String year : yearConsumption.keySet()) {
-                        double consumption = yearConsumption.get(year);
-                        System.out.printf("Год: %s, Потребление: %.2f%n", year, consumption);
-                    }
-                }*/
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-
-    }
 
     public static void calculateConsumption(Connection conn, ReactorHolder reactorHolder) {
         String[] years = {"2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"};

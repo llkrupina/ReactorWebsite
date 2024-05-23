@@ -4,6 +4,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,6 +45,12 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Обработка события нажатия на кнопку выбора базы данных
                 JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("SQLite и DB файлы", "sqlite", "db");
+                fileChooser.setFileFilter(filter);
+
+                String currentDirectory = System.getProperty("user.dir");
+                fileChooser.setCurrentDirectory(new File(currentDirectory));
+
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedFile = fileChooser.getSelectedFile();
@@ -119,14 +126,6 @@ public class GUI extends JFrame {
         });
     }
 
-    public static void main(String[] args) {
-        // Создание и отображение GUI
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                GUI gui = new GUI();
-                gui.setVisible(true);
-            }
-        });
-    }
+
 
 }

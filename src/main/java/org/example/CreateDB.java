@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CreateDB {
-    public static void main(String[] args) {
+    public static void createdb() {
         // Имя файла базы данных
         String url = "jdbc:sqlite:reactors.sqlite";
 

@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.Date;
 
 public class SetDataInDB {
-    public static void main(String[] args) throws SQLException, IOException, ParseException {
+    public static void setDataInDB() throws SQLException, IOException, ParseException {
         String url = "jdbc:sqlite:reactors.sqlite";
         Connection connection = DriverManager.getConnection(url);
 
@@ -301,50 +301,6 @@ public class SetDataInDB {
                     }
 
 
-
-                    /*
-                    try {
-                        try {
-                            WebElement reactorOwnerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("MainContent_MainContent_hypOwnerUrl")));
-                            String reactorOwner = reactorOwnerElement.getText();
-
-                            // Разделение строки по запятой и взятие только первой части
-                            String[] ownerParts = reactorOwner.split(",");
-                            reactorOwner = ownerParts[0].trim(); // trim() убирает лишние пробелы
-
-                            preparedStatement.setString(1, reactorOwner);
-
-                            //System.out.println(reactorName + "  Владелец: " + reactorOwner);
-                        } catch (TimeoutException e) {
-                            try {
-
-                                WebElement modelElement = driver.findElement(By.id("MainContent_MainContent_lblModel"));
-                                //System.out.println(modelElement.getText());
-
-                                WebElement reactorOwnerElement = modelElement.findElement(By.xpath("following::td[1]/h5"));
-
-                                String reactorOwner = reactorOwnerElement.getText();
-                                //System.out.println(reactorOwner);
-
-
-                                // Разделение строки по запятой и взятие только первой части
-                                String[] ownerParts = reactorOwner.split(",");
-                                reactorOwner = ownerParts[0].trim(); // trim() убирает лишние пробелы
-
-                                preparedStatement.setString(1, reactorOwner);
-
-                                //System.out.println(reactorName + "  Владелец: " + reactorOwner);
-
-
-                            } catch (TimeoutException n) {
-                                System.out.println("Нет владельца для реактора: " + reactorName);
-                                preparedStatement.setString(1, null);
-                            }
-                        }
-                    } catch (NoSuchElementException e) {
-                        System.out.println("Нет владельца для реактора: " + reactorName);
-                        preparedStatement.setString(1, null);
-                    }  */
 
 
                     preparedStatementReactor.setString(1, reactorName);

@@ -18,10 +18,10 @@ public class Manager {
         try (Connection conn = DriverManager.getConnection(DATABASE_URL + fileName)) {
             if (conn != null) {
                 readDataFromDB.calculateConsumption(conn, reactorHolder);
-                HashMap<String, HashMap<String, Double>> consumptionByRegion = readDataFromDB.calculateConsumptionByRegion(conn, reactorHolder);
+                HashMap<String, HashMap<String, Double>> consumptionByCountry = readDataFromDB.calculateConsumptionByCountry(conn, reactorHolder);
 
-                // Добавить данные в лист "Потребление по регионам"
-                ExcelExporter.exportToExcel(consumptionByRegion, "Потребление по регионам", workbook);
+                // Добавить данные в лист "Потребление по странам"
+                ExcelExporter.exportToExcel(consumptionByCountry, "Потребление по cтранам", workbook);
             }
 
         }
@@ -57,23 +57,4 @@ public class Manager {
         }
     }
 
-    private void saveToSheet(Workbook workbook, String sheetName, HashMap<String, HashMap<String, Double>> data) {
-        Sheet sheet = workbook.createSheet(sheetName);
-
-        int rowNum = 0;
-        Row headerRow = sheet.createRow(rowNum++);
-        headerRow.createCell(0).setCellValue(sheetName);
-        headerRow.createCell(1).setCellValue("Год");
-        headerRow.createCell(2).setCellValue("Потребление");
-
-        for (String key : data.keySet()) {
-            HashMap<String, Double> yearConsumption = data.get(key);
-            for (String year : yearConsumption.keySet()) {
-                Row row = sheet.createRow(rowNum++);
-                row.createCell(0).setCellValue(key);
-                row.createCell(1).setCellValue(year);
-                row.createCell(2).setCellValue(yearConsumption.get(year));
-            }
-        }
-    }
 }
