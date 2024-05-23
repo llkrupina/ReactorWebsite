@@ -10,10 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59ca04f7-b4fb-42e8-a543-03f4b030d856" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ExcelExporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ExcelExporter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/ReadDataFromDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/ReadDataFromDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/ReactorWebsite_jar/ReactorWebsite.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/ReactorWebsite_jar/ReactorWebsite.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,14 +81,23 @@
       <option name="project" value="LOCAL" />
       <updated>1716457895886</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fourth">
+      <option name="closed" value="true" />
+      <created>1716459390855</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1716459390855</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="firtst" />
     <MESSAGE value="secpond" />
     <MESSAGE value="third" />
-    <option name="LAST_COMMIT_MESSAGE" value="third" />
+    <MESSAGE value="fourth" />
+    <option name="LAST_COMMIT_MESSAGE" value="fourth" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
