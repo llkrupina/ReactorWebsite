@@ -3,6 +3,7 @@ package org.example;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.swing.*;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,7 +34,8 @@ public class ExcelExporter {
                 }
             }
         } catch (IllegalArgumentException e){
-            System.out.println("Такой расчет уже был произведен");
+            JOptionPane.showMessageDialog(null, "Такой расчет уже был произведен", "Ошибка", JOptionPane.ERROR_MESSAGE);
+
         }
     }
 

@@ -71,7 +71,8 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    System.out.println("Пошла");
+                    JOptionPane.showMessageDialog(null, "Загрузка началась", "Ошибка", JOptionPane.ERROR_MESSAGE);
+
                     manager.CalculateForCountries(selectedFile.getName(), workbook);
 
                     String outputPuth = System.getProperty("user.dir") + outputFileName;
@@ -79,7 +80,8 @@ public class GUI extends JFrame {
                         workbook.write(fileOut);
                     }
 
-                    System.out.println("Создана");
+                    JOptionPane.showMessageDialog(null, "Загрузка завершена", "Ошибка", JOptionPane.ERROR_MESSAGE);
+
                 } catch (SQLException | IOException ep) {
 
                 }
@@ -90,7 +92,8 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    System.out.println("Пошла");
+                    JOptionPane.showMessageDialog(null, "Загрузка началась", "Ошибка", JOptionPane.ERROR_MESSAGE);
+
                     manager.CalculateForRegion(selectedFile.getName(), workbook);
 
                     String outputPuth = System.getProperty("user.dir") + outputFileName;
@@ -98,7 +101,7 @@ public class GUI extends JFrame {
                         workbook.write(fileOut);
                     }
 
-                   System.out.println("Создана");
+                    JOptionPane.showMessageDialog(null, "Загрузка завершена", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException | IOException ep) {
                     ep.printStackTrace();
                 }
@@ -110,7 +113,8 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    System.out.println("Пошла");
+                    JOptionPane.showMessageDialog(null, "Загрузка началась", "Ошибка", JOptionPane.ERROR_MESSAGE);
+
                     manager.CalculateForCompany(selectedFile.getName(), workbook);
 
                     String outputPuth = System.getProperty("user.dir") + outputFileName;
@@ -118,7 +122,7 @@ public class GUI extends JFrame {
                         workbook.write(fileOut);
                     }
 
-                    System.out.println("Создана");
+                    JOptionPane.showMessageDialog(null, "Загрузка завершена", "Ошибка", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException | IOException ep) {
                     ep.printStackTrace();
                 }
