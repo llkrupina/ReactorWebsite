@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CreateDB {
-    public static void createdb() {
+    public static void main(String[] args) {
         // Имя файла базы данных
-        String url = "jdbc:sqlite:reactors.sqlite";
+        String url = "jdbc:sqlite:mylastDBreserve.sqlite";
 
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
@@ -35,42 +35,26 @@ public class CreateDB {
                         ")";
                 stmt.execute(createCompanyTable);
 
-                // Создание таблицы type
-                String createTypeTable = "CREATE TABLE IF NOT EXISTS type (" +
-                        "type TEXT PRIMARY KEY, " +
-                        "burnup DOUBLE" +
-                        ")";
-                stmt.execute(createTypeTable);
 
                 // Создание таблицы reactor
                 String createReactorTable = "CREATE TABLE IF NOT EXISTS reactor (" +
                         "reactorName TEXT PRIMARY KEY, " +
-                        "firstgridconnection TEXT, " +
-                        "shutdownyear TEXT, " +
+                        "firstgridconnection INTEGER, " +
+                        "shutdownyear INTEGER, " +
                         "country TEXT, " +
                         "owner TEXT, " +
                         "type TEXT, " +
                         "thermalcapacity DOUBLE, " +
                         "FOREIGN KEY (country) REFERENCES country(country), " +
-                        "FOREIGN KEY (owner) REFERENCES company(company), " +
-                        "FOREIGN KEY (type) REFERENCES type(type)" +
+                        "FOREIGN KEY (owner) REFERENCES company(company) " +
                         ")";
                 stmt.execute(createReactorTable);
 
                 // Создание таблицы loadfactor
                 String createLoadFactorTable = "CREATE TABLE IF NOT EXISTS loadfactor (" +
                         "reactorname TEXT PRIMARY KEY, " +
-                        "`2014` DOUBLE, " +
-                        "`2015` DOUBLE, " +
-                        "`2016` DOUBLE, " +
-                        "`2017` DOUBLE, " +
-                        "`2018` DOUBLE, " +
-                        "`2019` DOUBLE, " +
-                        "`2020` DOUBLE, " +
-                        "`2021` DOUBLE, " +
-                        "`2022` DOUBLE, " +
-                        "`2023` DOUBLE, " +
-                        "`2024` DOUBLE, " +
+                        "year INTEGER, " +
+                        "consumption DOUBLE, " +
                         "FOREIGN KEY (reactorname) REFERENCES reactor(reactorName)" +
                         ")";
                 stmt.execute(createLoadFactorTable);

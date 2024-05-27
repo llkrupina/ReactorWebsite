@@ -20,12 +20,12 @@ import java.util.*;
 import java.util.Date;
 
 public class SetDataInDB {
-    public static void setDataInDB() throws SQLException, IOException, ParseException {
-        String url = "jdbc:sqlite:reactors.sqlite";
+    public static void main(String[] args) throws SQLException, IOException, ParseException {
+        String url = "jdbc:sqlite:mylastDBreserve.sqlite";
         Connection connection = DriverManager.getConnection(url);
 
         String insertQueryReactor = "INSERT INTO reactor (reactorName, firstgridconnection, shutdownyear, country, owner, type, thermalcapacity) VALUES (?, ?, ?, ?, ?, ?,?)";
-        String insertQueryLoadfactor = "INSERT INTO loadfactor (reactorname, `2014`, `2015`, `2016`, `2017`, `2018`, `2019`, `2020`, `2021`, `2022`, `2023`, `2024`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQueryLoadfactor = "INSERT INTO loadfactor (reactorname, year, consumption) VALUES (?, ?, ?)";
 
 
         PreparedStatement preparedStatementReactor = connection.prepareStatement(insertQueryReactor);
@@ -101,11 +101,15 @@ public class SetDataInDB {
                         preparedStatementReactor.setNull(3, Types.INTEGER);
 
 
-                        int i = 2;
+
                         for (int year = 2014; year <= 2024; year++) {
                             //System.out.println(i + " " + reactorName + ", year: " + year + ", Load Factor: Строится");
-                            preparedStatementLoadFactor.setDouble(i, 0.0);
-                            i++;
+                            preparedStatementLoadFactor.setString(1, reactorName);
+                            preparedStatementLoadFactor.setInt(2, year);
+                            preparedStatementLoadFactor.setDouble(3, 0.0);
+
+                            preparedStatementLoadFactor.executeUpdate();
+
                         }
                     } else if (reactorStatus.equals("Operational")) {
 
@@ -126,42 +130,39 @@ public class SetDataInDB {
 
                         // ТАБЛИЦА  LOADFACTOR
 
-                        int i = 2;
                         for (int year = 2014; year <= 2024; year++) {
-                            //System.out.print(i + " ");
+                            double loadFactorValue = 85.0; // Значение по умолчанию
+                            boolean executeUpdateNeeded = true;
+
                             if (firstGridYear < year) {
                                 try {
                                     WebElement tableRow = driver.findElement(By.xpath("//td[contains(text(), '" + year + "')]//ancestor::tr"));
-
-                                    try {
-                                        WebElement secondLastElement = tableRow.findElements(By.tagName("td")).get(7); // Получаем восьмой элемент в строке (предпоследний)
-                                        String loadFactor = secondLastElement.getText();
-                                        //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + loadFactor);
-                                        preparedStatementLoadFactor.setDouble(i, Double.parseDouble(loadFactor));
-                                    } catch (NoSuchElementException e) {
-                                        //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 85.0);
-                                        preparedStatementLoadFactor.setDouble(i, 85.0);
-                                    } catch (IndexOutOfBoundsException e) {
-                                        //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 85.0);
-                                        preparedStatementLoadFactor.setDouble(i, 85.0);
-                                    }
-
-                                } catch (NoSuchElementException e) {
-                                    //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 85.0);
-                                    preparedStatementLoadFactor.setDouble(i, 85.0);
+                                    WebElement secondLastElement = tableRow.findElements(By.tagName("td")).get(7); // Получаем восьмой элемент в строке (предпоследний)
+                                    String loadFactor = secondLastElement.getText();
+                                    loadFactorValue = Double.parseDouble(loadFactor);
+                                } catch (NoSuchElementException | IndexOutOfBoundsException e) {
+                                    // Значение по умолчанию остается 85.0
                                 } catch (NumberFormatException e) {
-                                    System.out.println(reactorName + " СОВПАЛ ГОД" );
-                                    preparedStatementLoadFactor.setDouble(i, 85.0);
+                                    System.out.println(reactorName + " СОВПАЛ ГОД");
+                                } catch (Exception e) {
+                                    executeUpdateNeeded = false; // Не выполнять обновление в случае других исключений
                                 }
-
                             } else if (firstGridYear == year) {
-                                //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 100.0);
-                                preparedStatementLoadFactor.setDouble(i, 100.0);
+                                loadFactorValue = 100.0;
                             } else {
-                                //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 0.0);
-                                preparedStatementLoadFactor.setDouble(i, 0.0);
+                                loadFactorValue = 0.0;
                             }
-                            i++;
+
+                            if (executeUpdateNeeded) {
+                                preparedStatementLoadFactor.setString(1, reactorName);
+                                preparedStatementLoadFactor.setInt(2, year);
+                                preparedStatementLoadFactor.setDouble(3, loadFactorValue);
+                                try {
+                                    preparedStatementLoadFactor.executeUpdate();
+                                } catch (SQLException e) {
+                                    e.printStackTrace(); // Обработка исключения, если оно произойдет
+                                }
+                            }
                         }
 
                     } else {
@@ -200,51 +201,44 @@ public class SetDataInDB {
                         }
 
 
-                        int i = 2;
                         for (int year = 2014; year <= 2024; year++) {
+                            double loadFactorValue = 85.0; // Значение по умолчанию
+                            boolean executeUpdateNeeded = true;
+
                             if (firstGridYear < year && shutDownYear >= year) {
-                                //System.out.print("Дата открытия: " + shutDownYear);
-                                //System.out.println(",  Дата закрытия: " + shutDownYear);
                                 try {
-                                    WebElement tableRow;
+                                    WebElement tableRow = driver.findElement(By.xpath("//td[contains(text(), '" + year + "')]//ancestor::tr"));
                                     try {
-                                        tableRow = driver.findElement(By.xpath("//td[contains(text(), '" + year + "')]//ancestor::tr"));
-
-                                        try {
-                                            WebElement secondLastElement = tableRow.findElements(By.tagName("td")).get(7); // Получаем восьмой элемент в строке (предпоследний)
-                                            String loadFactor = secondLastElement.getText();
-                                            //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + loadFactor);
-                                            preparedStatementLoadFactor.setDouble(i, Double.parseDouble(loadFactor));
-                                        } catch (NoSuchElementException e) {
-                                            //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 85.0);
-                                            preparedStatementLoadFactor.setDouble(i, 85.0);
-                                        } catch (NumberFormatException e) {
-                                            preparedStatementLoadFactor.setDouble(i, 85.0);
-                                        } catch (IndexOutOfBoundsException e) {
-                                              preparedStatementLoadFactor.setDouble(i, 85.0);
-                                        }
-
-                                    } catch (NoSuchElementException e) {
-                                        //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 85.0);
-                                        preparedStatementLoadFactor.setDouble(i, 85.0);
+                                        WebElement secondLastElement = tableRow.findElements(By.tagName("td")).get(7); // Получаем восьмой элемент в строке (предпоследний)
+                                        String loadFactor = secondLastElement.getText();
+                                        loadFactorValue = Double.parseDouble(loadFactor);
+                                    } catch (NoSuchElementException | IndexOutOfBoundsException |
+                                             NumberFormatException e) {
+                                        // Значение по умолчанию остается 85.0
                                     }
-
                                 } catch (NoSuchElementException e) {
                                     System.out.println("Element not found for year: " + year);
+                                    executeUpdateNeeded = false;
                                 }
-
                             } else if (firstGridYear == year) {
-                                //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 100.0);
-                                preparedStatementLoadFactor.setDouble(i, 100.0);
+                                loadFactorValue = 100.0;
                             } else {
-                                //System.out.println(reactorName + ", year: " + year + ", Load Factor: " + 0.0);
-                                preparedStatementLoadFactor.setDouble(i, 0.0);
+                                loadFactorValue = 0.0;
                             }
-                            i++;
+
+                            if (executeUpdateNeeded) {
+                                preparedStatementLoadFactor.setString(1, reactorName);
+                                preparedStatementLoadFactor.setInt(2, year);
+                                preparedStatementLoadFactor.setDouble(3, loadFactorValue);
+                                try {
+                                    preparedStatementLoadFactor.executeUpdate();
+                                } catch (SQLException e) {
+                                    e.printStackTrace(); // Обработка исключения, если оно произойдет
+                                }
+                            }
                         }
 
                     }
-
 
                     WebElement reactorThermalCapacity = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("MainContent_MainContent_lblThermalCapacity")));
                     String thermalCapacity = reactorThermalCapacity.getText();
@@ -304,7 +298,7 @@ public class SetDataInDB {
 
 
                     preparedStatementReactor.setString(1, reactorName);
-                    preparedStatementLoadFactor.setString(1, reactorName);
+
 
 
                     preparedStatementReactor.setString(4, reactorCountry);
@@ -315,11 +309,7 @@ public class SetDataInDB {
 
                     }
 
-                    try {
-                        preparedStatementLoadFactor.executeUpdate();
-                    } catch (SQLiteException e) {
 
-                    }
                 }
                 System.out.println("-------------");
             } catch (SQLIntegrityConstraintViolationException e) {

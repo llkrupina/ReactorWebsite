@@ -1,10 +1,10 @@
 package org.example;
 
+
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,12 +45,6 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Обработка события нажатия на кнопку выбора базы данных
                 JFileChooser fileChooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("SQLite и DB файлы", "sqlite", "db");
-                fileChooser.setFileFilter(filter);
-
-                String currentDirectory = System.getProperty("user.dir");
-                fileChooser.setCurrentDirectory(new File(currentDirectory));
-
                 int returnValue = fileChooser.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedFile = fileChooser.getSelectedFile();
@@ -71,8 +65,7 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    JOptionPane.showMessageDialog(null, "Загрузка началась", "Ошибка", JOptionPane.ERROR_MESSAGE);
-
+                    System.out.println("Пошла");
                     manager.CalculateForCountries(selectedFile.getName(), workbook);
 
                     String outputPuth = System.getProperty("user.dir") + outputFileName;
@@ -80,8 +73,7 @@ public class GUI extends JFrame {
                         workbook.write(fileOut);
                     }
 
-                    JOptionPane.showMessageDialog(null, "Загрузка завершена", "Ошибка", JOptionPane.ERROR_MESSAGE);
-
+                    System.out.println("Создана");
                 } catch (SQLException | IOException ep) {
 
                 }
@@ -92,8 +84,7 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    JOptionPane.showMessageDialog(null, "Загрузка началась", "Ошибка", JOptionPane.ERROR_MESSAGE);
-
+                    System.out.println("Пошла");
                     manager.CalculateForRegion(selectedFile.getName(), workbook);
 
                     String outputPuth = System.getProperty("user.dir") + outputFileName;
@@ -101,7 +92,7 @@ public class GUI extends JFrame {
                         workbook.write(fileOut);
                     }
 
-                    JOptionPane.showMessageDialog(null, "Загрузка завершена", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    System.out.println("Создана");
                 } catch (SQLException | IOException ep) {
                     ep.printStackTrace();
                 }
@@ -113,8 +104,7 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    JOptionPane.showMessageDialog(null, "Загрузка началась", "Ошибка", JOptionPane.ERROR_MESSAGE);
-
+                    System.out.println("Пошла");
                     manager.CalculateForCompany(selectedFile.getName(), workbook);
 
                     String outputPuth = System.getProperty("user.dir") + outputFileName;
@@ -122,7 +112,7 @@ public class GUI extends JFrame {
                         workbook.write(fileOut);
                     }
 
-                    JOptionPane.showMessageDialog(null, "Загрузка завершена", "Ошибка", JOptionPane.ERROR_MESSAGE);
+                    System.out.println("Создана");
                 } catch (SQLException | IOException ep) {
                     ep.printStackTrace();
                 }
@@ -130,6 +120,14 @@ public class GUI extends JFrame {
         });
     }
 
-
+    public static void main(String[] args) {
+        // Создание и отображение GUI
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                GUI gui = new GUI();
+                gui.setVisible(true);
+            }
+        });
+    }
 
 }

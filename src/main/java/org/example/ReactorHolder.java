@@ -18,10 +18,10 @@ public class ReactorHolder {
 
     // Метод для добавления потребления в структуру данных
     public void addConsumption(String reactorname, String year, double consumption) {
-        // Если страны нет в основном HashMap, добавляем её
+        // Если реактора нет в основном HashMap, добавляем её
         reactorsWithConsumption.putIfAbsent(reactorname, new HashMap<>());
 
-        // Получаем внутренний HashMap для страны и добавляем в него потребление для указанного года
+        // Получаем внутренний HashMap для реактора и добавляем в него потребление для указанного года
         reactorsWithConsumption.get(reactorname).put(year, consumption);
     }
 
